@@ -13,13 +13,19 @@ describe Wrapper do
     context 'single word length greater than column' do
       let(:string) { 'wordwordword' }
       let(:column) { 4 }
-      it { should eq 'wordn\wordn\word' }
+      it { should eq("word\nword\nword") }
     end
 
     context 'multiple word greater than column' do
       let(:string) { 'word word word' }
       let(:column) { 10 }
       it { should eq("word word\nword") }
+    end
+
+    context 'mixes breaks at words and spaces' do
+      let(:string) { 'word word word' }
+      let(:column) { 3 }
+      it { should eq("wor\nd\nwor\nd\nwor\nd") }
     end
 
     context 'when number is provided in place of string' do
