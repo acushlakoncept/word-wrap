@@ -2,7 +2,7 @@ require_relative '../wrapper'
 
 describe Wrapper do
   describe '#wrap' do
-    subject { Wrapper.new(string, column).wrap }
+    subject { Wrapper.wrap(string, column) }
     let(:string) { 'word' }
     let(:column) { 6 }
 
@@ -29,7 +29,7 @@ describe Wrapper do
     end
 
     context 'when number is provided in place of string' do
-      let(:string) { 1253485 }
+      let(:string) { 1_253_485 }
       let(:column) { 3 }
       it { should eq "Expected String but got #{string.class}" }
     end
@@ -42,9 +42,8 @@ describe Wrapper do
 
     context 'when provided column is not a string' do
       let(:string) { 'word word' }
-      let(:column) { "col" }
+      let(:column) { 'col' }
       it { should eq "Expected Integer but got #{column.class}" }
     end
-
   end
 end
