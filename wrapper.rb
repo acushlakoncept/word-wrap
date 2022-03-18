@@ -1,21 +1,16 @@
 class Wrapper
-  def initialize(string, column)
-    @string = string
-    @column = column
+  def self.wrap(string, column)
+    return "Expected String but got #{string.class}" if string.class != String
+    return "Expected Integer but got #{column.class}" if column.class != Integer
+    return 'Provide a column atleast greater than 0' if column < 1
+
+    return '' if string == ''
+    return ' ' if string == ' '
+
+    wrap_recursively(string.reverse.scan(/\S+\s?/), column).reverse
   end
 
-  def wrap
-    return "Expected String but got #{@string.class}" if @string.class != String
-    return "Expected Integer but got #{@column.class}" if @column.class != Integer
-    return 'Provide a column atleast greater than 0' if @column < 1
-
-    return '' if @string == ''
-    return ' ' if @string == ' '
-
-    wrap_recursively(@string.reverse.scan(/\S+\s?/), @column).reverse
-  end
-
-  def wrap_recursively(array, column)
+  def self.wrap_recursively(array, column)
     first = array[0]
 
     if first.scan(/.{1,#{column}}/).length > 1
@@ -32,9 +27,9 @@ class Wrapper
   end
 end
 
-puts Wrapper.new('word', 10).wrap  # word
-puts Wrapper.new('word word', 5).wrap  # word\nword
-puts Wrapper.new('word word word', 5).wrap  # word\nword\nword
-puts Wrapper.new('word word word', 10).wrap  # word word\nword
-puts Wrapper.new('wordword', 4).wrap  # word\nword
-puts Wrapper.new('word word word', 3).wrap  # wor\nd\nwor\nd\nwor\nd
+puts Wrapper.wrap('word', 10)  # word
+puts Wrapper.wrap('word word', 5) # word\nword
+puts Wrapper.wrap('word word word', 5) # word\nword\nword
+puts Wrapper.wrap('word word word', 10) # word word\nword
+puts Wrapper.wrap('wordword', 4) # word\nword
+puts Wrapper.wrap('word word word', 3)  # wor\nd\nwor\nd\nwor\nd
